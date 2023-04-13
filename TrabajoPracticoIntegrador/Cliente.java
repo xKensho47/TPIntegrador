@@ -1,14 +1,14 @@
 package TrabajoPractico_Integrador;
 
 public class Cliente extends Persona{
-	private byte edad;
+	private int edad;
 	private String direccion;
 	private int telefono;
 	private String mail;
 	private String estCivil;
 	private double numCliente;
 	//CONSTRUCTOR
-	public Cliente(String nombre, int dni, byte edad, String direccion, int telefono, String mail, String estCivil, double numCliente) {
+	public Cliente(String nombre, int dni, int edad, String direccion, int telefono, String mail, String estCivil, double numCliente) {
 		super(nombre, dni);
 		this.edad = edad;
 		this.direccion = direccion;
@@ -18,7 +18,7 @@ public class Cliente extends Persona{
 		this.numCliente = numCliente;
 	}
 	//METODOS GETTER
-	public byte dameEdad() {
+	public int dameEdad() {
 		return edad;
 	}
 	public String dameDireccion() {

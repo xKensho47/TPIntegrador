@@ -3,9 +3,9 @@ package TrabajoPractico_Integrador;
 public class Vendedor extends Persona{
 	private int telefono;
 	private String mail;
-	private String codVendedor;
+	private int codVendedor;
 	//CONSTRUCTOR
-	public Vendedor(String nombre, int dni, int telefono, String mail, String codVendedor) {
+	public Vendedor(String nombre, int dni, int telefono, String mail, int codVendedor) {
 		super(nombre, dni);
 		this.telefono = telefono;
 		this.mail = mail;
@@ -18,7 +18,7 @@ public class Vendedor extends Persona{
 	public String dameMail() {
 		return mail;
 	}
-	public String dameCodigo() {
+	public int dameCodigo() {
 		return codVendedor;
 	}
 	//MOSTRAR DATOS
