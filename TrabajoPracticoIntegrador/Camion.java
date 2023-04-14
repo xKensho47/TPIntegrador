@@ -7,8 +7,8 @@ public class Camion extends Vehiculo{
 	private int anio;
 
 	//CONSTRUCTOR
-	public Camion(String marca, String tipo, double km, double precio, String color, int acoplados, int anio, int stock) {
-		super(marca, km, precio, stock);
+	public Camion(String marca, String tipo, double km, double precio, String color, int acoplados, int anio, String patente) {
+		super(marca, km, precio, patente);
 		this.tipo = tipo;
 		this.color = color;
 		this.acoplados = acoplados;
@@ -32,12 +32,12 @@ public class Camion extends Vehiculo{
 	}
 	//MOSTRAR DATOS
 	public String dameDatos() {
-		return super.dameMarca() + "\t" + tipo + "\t" + super.dameKm() + "\t\t" + color + "\t\t" + acoplados + "\t\t" + anio + "\t  " + super.damePrecio() + "\t\t" + super.dameStock();
+		return super.dameMarca() + "\t" + tipo + "\t" + super.dameKm() + "\t\t" + color + "\t\t" + acoplados + "\t\t" + anio + "\t  " + super.damePrecio() + "\t\t" + super.damePatente();
 	}
 	//TITULO
 	@Override
     public void dameTitulo() {
-        System.out.println("Marca\t\tTipo\t\tKilometraje\tColor\t\tAcoplados\tAño\t  Precio\t\tStock");
+        System.out.println("Marca\t\tTipo\t\tKilometraje\tColor\t\tAcoplados\tAño\t  Precio\t\tPatente");
     }
 
 }

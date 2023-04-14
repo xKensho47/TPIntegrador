@@ -7,8 +7,8 @@ public class Auto extends Vehiculo {
 	private int anio;
 
 	//CONSTRUCTOR
-	public Auto(String marca, String modelo, double km, double precio, String color, int puertas, int anio, int stock) {
-		super(marca, km, precio, stock);
+	public Auto(String marca, String modelo, double km, double precio, String color, int puertas, int anio, String patente) {
+		super(marca, km, precio, patente);
 		this.modelo = modelo;
 		this.color = color;
 		this.puertas = puertas;
@@ -30,11 +30,11 @@ public class Auto extends Vehiculo {
 	
 	//MOSTRAR DATOS
 	public String dameDatos() {
-		return super.dameMarca() + "\t" + modelo + "\t" + super.dameKm() + "\t\t" + color + "\t" + puertas + "\t  " + anio + "\t  " + super.damePrecio() + "\t\t" + super.dameStock();
+		return super.dameMarca() + "\t" + modelo + "\t" + super.dameKm() + "\t\t" + color + "\t" + puertas + "\t  " + anio + "\t  " + super.damePrecio() + "\t\t" + super.damePatente();
 	}
 	//TITULO
 	@Override
     public void dameTitulo() {
-        System.out.println("Marca\tModelo\tKilometraje\tColor\tPuertas\t  Año\t  Precio\t\tStock");
+        System.out.println("Marca\tModelo\tKilometraje\tColor\tPuertas\t  Año\t  Precio\t\tPatente");
     }
 }

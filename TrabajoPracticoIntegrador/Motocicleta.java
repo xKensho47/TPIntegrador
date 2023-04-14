@@ -6,8 +6,8 @@ public class Motocicleta extends Vehiculo{
 	private int anio;
 
 	//CONSTRUCTOR
-	public Motocicleta(String marca, String modelo, double km, double precio, String color, int anio, int stock) {
-		super(marca, km, precio, stock);
+	public Motocicleta(String marca, String modelo, double km, double precio, String color, int anio, String patente) {
+		super(marca, km, precio, patente);
 		this.modelo = modelo;
 		this.color = color;
 		this.anio = anio;
@@ -28,11 +28,11 @@ public class Motocicleta extends Vehiculo{
 	
 	//MOSTRAR DATOS
 	public String dameDatos() {
-		return super.dameMarca() + "\t" + modelo + "\t" + super.dameKm() + "\t\t" + color + "\t\t" + anio + "\t" + super.damePrecio() + "\t\t" + super.dameStock();
+		return super.dameMarca() + "\t" + modelo + "\t" + super.dameKm() + "\t\t" + color + "\t\t" + anio + "\t" + super.damePrecio() + "\t\t" + super.damePatente();
 	}
 	//TITULO
 	@Override
     public void dameTitulo() {
-        System.out.println("Marca\tModelo\tKilometraje\tColor\t\tAño\tPrecio\t\tStock");
+        System.out.println("Marca\tModelo\tKilometraje\tColor\t\tAño\tPrecio\t\tPatente");
     }
 }

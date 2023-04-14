@@ -4,14 +4,14 @@ public abstract class Vehiculo {
 	private String marca;
 	private double km;
 	protected double precio;
-	protected int stock;
+	protected String patente;
 
 	//CONSTRUCTOR
-	public Vehiculo(String marca, double km, double precio, int stock) {
+	public Vehiculo(String marca, double km, double precio, String patente) {
 		this.marca = marca;
 		this.km = km;
 		this.precio = precio;
-		this.stock = stock;
+		this.patente = patente;
 		
 	}
 	public Vehiculo() {
@@ -27,17 +27,12 @@ public abstract class Vehiculo {
 	public double damePrecio() {
 		return precio;
 	}
-	public int dameStock() {
-		return stock;
+	public String damePatente() {
+		return patente;
 	}
-	//METODO SETTER para cambiar el stock
-	public void nvoStock(int nvoStock) {
-		this.stock = nvoStock;
-	}
-	
 	//MOSTRAR DATOS
 	public String dameDatos() {
-		return "Los datos del VEHICULO son: "+ marca + " - " + km + " - " + precio + " - " + stock;
+		return "Los datos del VEHICULO son: "+ marca + " - " + km + " - " + precio + " - " + patente;
 	}
 	//TITULO
     public abstract void dameTitulo();
