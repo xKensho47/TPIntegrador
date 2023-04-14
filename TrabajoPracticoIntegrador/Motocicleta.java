@@ -33,6 +33,6 @@ public class Motocicleta extends Vehiculo{
 	//TITULO
 	@Override
     public void dameTitulo() {
-        System.out.println("Marca\tModelo\tKilometraje\tColor\t\tAño\tPrecio\t\tPatente");
+        System.out.println("   Marca\tModelo\tKilometraje\tColor\t\tAño\tPrecio\t\tPatente");
     }
 }

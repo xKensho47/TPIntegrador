@@ -37,7 +37,7 @@ public class Camion extends Vehiculo{
 	//TITULO
 	@Override
     public void dameTitulo() {
-        System.out.println("Marca\t\tTipo\t\tKilometraje\tColor\t\tAcoplados\tAño\t  Precio\t\tPatente");
+        System.out.println("   Marca\t\tTipo\t\tKilometraje\tColor\t\tAcoplados\tAño\t  Precio\t\tPatente");
     }
 
 }

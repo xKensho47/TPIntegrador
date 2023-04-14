@@ -35,6 +35,6 @@ public class Auto extends Vehiculo {
 	//TITULO
 	@Override
     public void dameTitulo() {
-        System.out.println("Marca\tModelo\tKilometraje\tColor\tPuertas\t  Año\t  Precio\t\tPatente");
+        System.out.println("   Marca\tModelo\tKilometraje\tColor\tPuertas\t  Año\t  Precio\t\tPatente");
     }
 }
