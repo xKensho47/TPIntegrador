@@ -1,9 +1,15 @@
 package TrabajoPractico_Integrador;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+
+
 
 public class Concesionario {
 	static List<Cliente> listaCliente = new ArrayList<Cliente>();
@@ -13,59 +19,98 @@ public class Concesionario {
 	static Scanner entrada = new Scanner(System.in);
 
 	public static void main(String[] args) {
+		try {
+			Connection cX = DriverManager.getConnection("jdbc:mysql://localhost:3306/concesionaria", "root", "root");
+			Statement sT = cX.createStatement();
+			String consulta = "select * from clientes";
+			
+			ResultSet sql = sT.executeQuery(consulta);
+			
+			System.out.println("CODIGO\tDNI\tNOMBRE\tDIRECCION");
+			while(sql.next()) {
+				System.out.println(sql.getInt(1) + "\t" + sql.getInt(2) + "\t" + sql.getString(3) + sql.getString(4));
+			}
+			
+			System.out.println("\n\t\tSeleccione un cliente: ");
+			entrada = new Scanner(System.in);
+			int cod = entrada.nextInt();
+			
+			consulta = String.format("select * from clientes WHERE idC = %s", cod);
+			
+			sql = sT.executeQuery(consulta);
+			
+			int dniC = 0;
+			String nomC = "", direC = "";
+			
+			while(sql.next()) {
+				System.out.println(sql.getInt(1) + "\t" + sql.getInt(2) + "\t" + sql.getString(3) + sql.getString(4));
+			}
+			
+			Cliente c1 = new Cliente(dniC, nomC, direC);
+			Compras v1 = new Compras(c1);
+			
+		}
+		catch(Exception obj){
+			System.out.println("Error en la conexión");
+			System.out.println(obj.fillInStackTrace());
+			
+		}
+		finally {
 		//OPERACION PARA EFECTUAR LA COMPRA O VENTA DE UN VEHICULO
 		operacion();
-		
 		//mostrar los datos de las operaciones
-		//mostrarCompras();
-		//mostrarVentas();
+		//mostrarCompras(listaCompras, c1);
+		}
+		
 	}
 	public static void agregarCliente() {
-		String nombre, direccion, mail, estCivil;
-		int dni, edad, telefono, opcion;
+		String nombre, direccion, mail;
+		int dni, edad, telefono;
 		
-		System.out.print("\nIngrese sus datos: ");
-		System.out.println("Nombre:" );
-		nombre = entrada.next();
+		System.out.print("\nIngrese sus datos: \n");
+		System.out.print("Nombre:" );
+		nombre = entrada.nextLine();
+		entrada.nextLine();
 		System.out.print("DNI: ");
 		dni = entrada.nextInt();
 		System.out.print("Edad: ");
 		edad = entrada.nextInt();
-		System.out.println("Direccion:" );
-		direccion = entrada.next();
+		System.out.print("Direccion:" );
+		direccion = entrada.nextLine();
+		entrada.nextLine();
 		System.out.print("Telefono: ");
 		telefono = entrada.nextInt();
-		System.out.println("Mail:" );
-		mail = entrada.next();
-		System.out.println("Estado civil:" );
-		estCivil = entrada.next();
+		System.out.print("Mail:" );
+		mail = entrada.nextLine();
+		entrada.nextLine();
 		
-		Cliente cliente = new Cliente(nombre, dni, edad, direccion, telefono, mail, estCivil);
+		Cliente cliente = new Cliente(nombre, dni, edad, direccion, telefono, mail);
 		
 		//Guardamos al Cliente dentro de la lista de Clientes
 		listaCliente.add(cliente);
 	}
 	public static void agregarVendedor() {
-		String nombre, direccion, mail, estCivil;
-		int dni, edad, telefono, opcion;
+		String nombre, direccion, mail;
+		int dni, edad, telefono;
 		
-		System.out.print("\nIngrese sus datos: ");
-		System.out.println("Nombre:" );
-		nombre = entrada.next();
+		System.out.print("\nIngrese sus datos: \n");
+		System.out.print("Nombre:" );
+		nombre = entrada.nextLine();
+		entrada.nextLine();
 		System.out.print("DNI: ");
 		dni = entrada.nextInt();
 		System.out.print("Edad: ");
 		edad = entrada.nextInt();
-		System.out.println("Direccion:" );
-		direccion = entrada.next();
+		System.out.print("Direccion:" );
+		direccion = entrada.nextLine();
+		entrada.nextLine();
 		System.out.print("Telefono: ");
 		telefono = entrada.nextInt();
-		System.out.println("Mail:" );
-		mail = entrada.next();
-		System.out.println("Estado civil:" );
-		estCivil = entrada.next();
+		System.out.print("Mail:" );
+		mail = entrada.nextLine();
+		entrada.nextLine();
 		
-		Vendedor vendedor = new Vendedor(nombre, dni, edad, direccion, telefono, mail, estCivil);
+		Vendedor vendedor = new Vendedor(nombre, dni, edad, direccion, telefono, mail);
 		
 		//Guardamos al Cliente dentro de la lista de Clientes
 		listaVendedor.add(vendedor);
@@ -80,17 +125,20 @@ public class Concesionario {
 				System.out.println("Digite que operacion desea realizar:");
 				System.out.println("1. Comprar vehículo");
 				System.out.println("2. Vender vehículo");
+				System.out.println("3. Salir");
 				System.out.print("\nOpcion: ");
 				opcion = entrada.nextInt();
-			}while(opcion < 1 || opcion > 2);
+			}while(opcion < 1 || opcion > 3);
 			
 			switch(opcion) {
 				case 1: agregarCliente();
 						comprarVehiculo();	//COMPRAR VEHICULO
 						break;
 						
-				case 2: //venderVehiculo();	//VENDER VEHICULO
+				case 2: venderVehiculo();	//VENDER VEHICULO
 						break;
+				
+				case 3: break;
 			}
 			System.out.print("\nDesea realizar otra operación (s/n): ");
 			respuesta = entrada.next().charAt(0);
@@ -102,7 +150,7 @@ public class Concesionario {
 	public static void comprarVehiculo() {		
 		int opcion;
 		do {
-			System.out.print("\nIndique qué vehiculo desea comprar: \n");
+			System.out.println("\nIndique qué vehiculo desea comprar:");
 			System.out.println("1. Auto:");
 			System.out.println("2. Motocicleta:");
 			System.out.println("3. Camion:");
@@ -232,35 +280,36 @@ public class Concesionario {
 	}
 	
 	public static void venderVehiculo() {
-		String nombre, direccion, mail, estCivil;
+		String nombre, direccion, mail;
 		int dni, edad, telefono, opcion;
 		
-		System.out.print("\nIngrese sus datos: ");
+		System.out.print("\nIngrese sus datos: \n");
 		System.out.println("Nombre:" );
-		nombre = entrada.next();
+		nombre = entrada.nextLine();
+		entrada.nextLine();
 		System.out.print("DNI: ");
 		dni = entrada.nextInt();
 		System.out.print("Edad: ");
 		edad = entrada.nextInt();
 		System.out.println("Direccion:" );
-		direccion = entrada.next();
+		direccion = entrada.nextLine();
+		entrada.nextLine();
 		System.out.print("Telefono: ");
 		telefono = entrada.nextInt();
 		System.out.println("Mail:" );
-		mail = entrada.next();
-		System.out.println("Estado civil:" );
-		estCivil = entrada.next();
+		mail = entrada.nextLine();
+		entrada.nextLine();
 		
-		Vendedor vendedor = new Vendedor(nombre, dni, edad, direccion, telefono, mail, estCivil);
+		Vendedor vendedor = new Vendedor(nombre, dni, edad, direccion, telefono, mail);
 		
 		//Guardamos al Vendedor dentro de la lista de Vendedores
 		listaVendedor.add(vendedor);
 		
 		do {
 			System.out.print("\nIndique qué vehiculo desea vender: \n");
-			System.out.println("1. Auto:");
-			System.out.println("2. Motocicleta:");
-			System.out.println("3. Camion:");
+			System.out.println("1. Auto");
+			System.out.println("2. Motocicleta");
+			System.out.println("3. Camion");
 			System.out.print("\nOpcion: ");
 			opcion = entrada.nextInt();
 		}while(opcion < 1 || opcion > 3);
@@ -282,23 +331,27 @@ public class Concesionario {
 		int km, puertas, anio;
 		double precio;
 		
-		System.out.print("\nIngrese los datos del auto: ");
+		System.out.print("\nIngrese los datos del auto: \n");
 		System.out.println("Marca: ");
-		marca = entrada.next();
+		marca = entrada.nextLine();
+		entrada.nextLine();
 		System.out.print("Modelo: ");
-		modelo = entrada.next();
+		modelo = entrada.nextLine();
+		entrada.nextLine();
 		System.out.print("Kilometraje: ");
 		km = entrada.nextInt();
 		System.out.println("Precio: ");
 		precio = entrada.nextDouble();
 		System.out.print("Color: ");
-		color = entrada.next();
+		color = entrada.nextLine();
+		entrada.nextLine();
 		System.out.println("Cantidad de puertas: ");
 		puertas = entrada.nextInt();
 		System.out.println("Año: ");
 		anio = entrada.nextInt();
 		System.out.print("Patente: ");
-		patente = entrada.next();
+		patente = entrada.nextLine();
+		entrada.nextLine();
 		
 		Auto auto = new Auto(marca, modelo, km, precio, color, puertas, anio, patente);
 		
@@ -314,21 +367,24 @@ public class Concesionario {
 		int km, anio;
 		double precio;
 		
-		System.out.print("\nIngrese los datos de la motocicleta: ");
+		System.out.print("\nIngrese los datos de la motocicleta: \n");
 		System.out.println("Marca: ");
-		marca = entrada.next();
+		marca = entrada.nextLine();
+		entrada.nextLine();
 		System.out.print("Modelo: ");
-		modelo = entrada.next();
+		modelo = entrada.nextLine();
 		System.out.print("Kilometraje: ");
 		km = entrada.nextInt();
 		System.out.println("Precio: ");
 		precio = entrada.nextDouble();
 		System.out.print("Color: ");
-		color = entrada.next();
+		color = entrada.nextLine();
+		entrada.nextLine();
 		System.out.println("Año: ");
 		anio = entrada.nextInt();
 		System.out.print("Patente: ");
-		patente = entrada.next();
+		patente = entrada.nextLine();
+		entrada.nextLine();
 		
 		Motocicleta moto = new Motocicleta(marca, modelo, km, precio, color, anio, patente);
 		
@@ -344,23 +400,27 @@ public class Concesionario {
 		int km, acoplados, anio;
 		double precio;
 		
-		System.out.print("\nIngrese los datos del camion: ");
+		System.out.print("\nIngrese los datos del camion: \n");
 		System.out.println("Marca: ");
-		marca = entrada.next();
+		marca = entrada.nextLine();
+		entrada.nextLine();
 		System.out.print("Tipo: ");
-		tipo = entrada.next();
+		tipo = entrada.nextLine();
+		entrada.nextLine();
 		System.out.print("Kilometraje: ");
 		km = entrada.nextInt();
 		System.out.println("Precio: ");
 		precio = entrada.nextDouble();
 		System.out.print("Color: ");
-		color = entrada.next();
+		color = entrada.nextLine();
+		entrada.nextLine();
 		System.out.print("Cantidad de acoplados: ");
 		acoplados = entrada.nextInt();
 		System.out.println("Año: ");
 		anio = entrada.nextInt();
 		System.out.print("Patente: ");
-		patente = entrada.next();
+		patente = entrada.nextLine();
+		entrada.nextLine();
 		
 		Camion camion = new Camion(marca, tipo, km, precio, color, acoplados, anio, patente);
 		
@@ -392,7 +452,7 @@ public class Concesionario {
 		}
 		
 	}	
-	public static void mostrarVentas(List<Ventas> listaVentas, Cliente cliente) {
+	public static void mostrarVentas(List<Ventas> listaVentas, Vendedor vendedor) {
 		double suma = 0;
 		Iterator<Ventas> ventasC = listaVentas.iterator();
 		boolean flag = true;
@@ -410,8 +470,20 @@ public class Concesionario {
 			descuentos(suma);
 		else
 			System.out.println("No se aplican descuentos a montos menores o iguales a 0");
-		}
-		
 	}
+	public static void mostrarCompras(List<Compras> listaCompras, Cliente cliente) {
+		Iterator<Compras> comprasC = listaCompras.iterator();
+		boolean flag = true;
+		
+		while(comprasC.hasNext()){
+			Compras compras = comprasC.next();
+			if(flag) {
+				compras.dameDatos();
+				flag = false;
+			}
+			compras.dameVehiculo();
+		}
+	}
+}
 	
 

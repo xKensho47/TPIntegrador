@@ -5,15 +5,17 @@ public class Cliente extends Persona{
 	private String direccion;
 	private int telefono;
 	private String mail;
-	private String estCivil;
 	//CONSTRUCTOR
-	public Cliente(String nombre, int dni, int edad, String direccion, int telefono, String mail, String estCivil) {
+	public Cliente(String nombre, int dni, int edad, String direccion, int telefono, String mail) {
 		super(nombre, dni);
 		this.edad = edad;
 		this.direccion = direccion;
 		this.telefono = telefono;
 		this.mail = mail;
-		this.estCivil = estCivil;
+	}
+	public Cliente(int dni, String nombre, String direccion) {
+		super(nombre, dni);
+		this.direccion = direccion;
 	}
 	//METODOS GETTER
 	public int dameEdad() {
@@ -28,17 +30,14 @@ public class Cliente extends Persona{
 	public String dameMail() {
 		return mail;
 	}
-	public String dameEstCivil() {
-		return estCivil;
-	}
 	//MOSTRAR DATOS
 	public String dameDatos() {
-		return "Los datos del CLIENTE son: " + super.dameDatos() + edad + " - " + direccion + " - " + telefono + " - " + mail + " - " + estCivil;
+		return "Los datos del CLIENTE son: " + super.dameDatos() + edad + " - " + direccion + " - " + telefono + " - " + mail;
 	}
 	//TITULO
 	@Override
     public void dameTitulo() {
-        System.out.println("Nombre\t\tDNI\tDireccion\tTelefono\tMail\tEstado Civil");
+        System.out.println("Nombre\t\tDNI\tDireccion\tTelefono\tMail");
     }
 
 }

@@ -1,34 +1,31 @@
 package TrabajoPractico_Integrador;
 
 public class Ventas {
-	private Cliente cliente;
-	private Vendedor vendedor;
 	private Vehiculo vehiculo;
     private double monto;
+    Vendedor vendedor;
     
-    //CONSTRUCTORES
-    public Ventas(Cliente cliente, Vendedor vendedor, Vehiculo vehiculo, double monto){
-        this.cliente = cliente;
-        this.vendedor = vendedor;
+    //CONSTRUCTOR
+    public Ventas(Vehiculo vehiculo, double monto, Vendedor vendedor){
         this.vehiculo = vehiculo;
         this.monto = monto;
+        this.vendedor = vendedor;
+    }
+    public Ventas(Vendedor vendedor){
+        this.vendedor = vendedor;
     }
     //METODOS GETTER
-    public Cliente dameCliente(){
-        return cliente;
-    }
-    public Vendedor dameVendedor(){
-        return vendedor;
-    }
     public Vehiculo dameVehiculo(){
-        return vehiculo;    
+        return vehiculo;
     }
     public double dameMontoCompra(){
         return monto;
-    }    
-    //MOSTRAR DATOS
-    public String dameDatos() {
-    	return vendedor.dameNombre() + " vendió a " + cliente.dameNombre() + ": " + vehiculo.dameDatos();
+    }
+    public Vendedor dameVendedor() {
+    	return vendedor;
+    }
+    public void dameDatos() {
+    	System.out.println("Se vendió " + vehiculo.dameDatos());
     }
 
 }
