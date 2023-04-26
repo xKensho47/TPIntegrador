@@ -42,11 +42,33 @@ public class Concesionario {
 				
 				String isql = "insert into clientes(nomC, dniC, direC) values(?,?,?)";
 				ps = cn.prepareStatement(isql);
-				
-				
-				
-				
 
+				// Pedir los valores para los parámetros
+				operacion();
+				
+				Iterator<Cliente> clienteC = listaCliente.iterator();
+				boolean flag = true;
+				
+				while(clienteC.hasNext()){
+					Cliente cliente = clienteC.next();
+					if(flag) {
+						cliente.dameDatos();
+						flag = false;
+					}
+					int dni = cliente.dameDni();
+					String nombre = cliente.dameNombre();
+					String direccion = cliente.dameDireccion();
+					
+					ps.setString(1, nombre);
+					ps.setInt(2, dni);
+					ps.setString(3, direccion);
+				}
+				
+				// Ejecutar la consulta SQL para insertar el registro
+				ps.executeUpdate();
+
+				System.out.println("El cliente ha sido agregado correctamente.");
+				
 			}
 			
 		} catch (SQLException e) {
