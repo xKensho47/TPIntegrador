@@ -1,8 +1,8 @@
 package TrabajoPractico_Integrador;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,51 +18,51 @@ public class Concesionario {
 	static List<Vehiculo> listaCompras = new ArrayList<Vehiculo>();
 	static Scanner entrada = new Scanner(System.in);
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
+		Conexion conexion = new Conexion();
+		Connection cn = null;
+		Statement stm = null;
+		ResultSet rs = null;
+		
 		try {
-			Connection cX = DriverManager.getConnection("jdbc:mysql://localhost:3306/concesionaria", "root", "root");
-			Statement sT = cX.createStatement();
-			String consulta = "select * from clientes";
+			cn = conexion.conectar();
+			stm = cn.createStatement();
+			rs = stm.executeQuery("SELECT * FROM clientes");
 			
-			ResultSet sql = sT.executeQuery(consulta);
-			
-			System.out.println("CODIGO\tDNI\tNOMBRE\tDIRECCION");
-			while(sql.next()) {
-				System.out.println(sql.getInt(1) + "\t" + sql.getInt(2) + "\t" + sql.getString(3) + sql.getString(4));
+			while (rs.next()) {
+				int idC = rs.getInt(1);
+				int dniC = rs.getInt(2);
+				String nomC = rs.getString(3);
+				String direC = rs.getString(4);
+				
+				System.out.println(idC + " - " + dniC + " - " + nomC + " - " + direC);
 			}
 			
-			System.out.println("\n\t\tSeleccione un cliente: ");
-			entrada = new Scanner(System.in);
-			int cod = entrada.nextInt();
+		} catch (SQLException e) {
+			e.printStackTrace();
 			
-			consulta = String.format("select * from clientes WHERE idC = %s", cod);
-			
-			sql = sT.executeQuery(consulta);
-			
-			int dniC = 0;
-			String nomC = "", direC = "";
-			
-			while(sql.next()) {
-				System.out.println(sql.getInt(1) + "\t" + sql.getInt(2) + "\t" + sql.getString(3) + sql.getString(4));
+		} finally {
+			try {
+				if (rs!= null) {
+					rs.close();
+				}
+				
+				if (stm != null) {
+					stm.close();
+				}
+				
+				if (cn != null) {
+					cn.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
 			}
-			
-			Cliente c1 = new Cliente(dniC, nomC, direC);
-			Compras v1 = new Compras(c1);
-			
-		}
-		catch(Exception obj){
-			System.out.println("Error en la conexión");
-			System.out.println(obj.fillInStackTrace());
-			
-		}
-		finally {
-		//OPERACION PARA EFECTUAR LA COMPRA O VENTA DE UN VEHICULO
-		operacion();
-		//mostrar los datos de las operaciones
-		//mostrarCompras(listaCompras, c1);
 		}
 		
+		operacion();
+		
 	}
+	
 	public static void agregarCliente() {
 		String nombre, direccion, mail;
 		int dni, edad, telefono;
@@ -431,7 +431,7 @@ public class Concesionario {
 		//SUMAR AL STOCK AGREGANDO A LISTA DE COMPRAS
 		System.out.println("");
 	}
-	
+	/*
 	public static void descuentos(double precio) {
 		if(precio <= 50000) {
 			//DESCUENTO FIJO
@@ -451,9 +451,9 @@ public class Concesionario {
 			System.out.println("El monto total con descuento (porcentual) es de: " + descT.valorFinal(precio));
 		}
 		
-	}	
+	}
+	*/	
 	public static void mostrarVentas(List<Ventas> listaVentas, Vendedor vendedor) {
-		double suma = 0;
 		Iterator<Ventas> ventasC = listaVentas.iterator();
 		boolean flag = true;
 		
@@ -463,13 +463,9 @@ public class Concesionario {
 				ventas.dameDatos();
 				flag = false;
 			}
-			suma += ventas.dameMontoCompra();
 			ventas.dameVehiculo();
 		}
-		if(suma>0)
-			descuentos(suma);
-		else
-			System.out.println("No se aplican descuentos a montos menores o iguales a 0");
+
 	}
 	public static void mostrarCompras(List<Compras> listaCompras, Cliente cliente) {
 		Iterator<Compras> comprasC = listaCompras.iterator();
