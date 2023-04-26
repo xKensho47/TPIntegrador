@@ -1,6 +1,7 @@
 package TrabajoPractico_Integrador;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,11 +24,13 @@ public class Concesionario {
 		Connection cn = null;
 		Statement stm = null;
 		ResultSet rs = null;
+		PreparedStatement ps = null;
 		
 		try {
 			cn = conexion.conectar();
 			stm = cn.createStatement();
 			rs = stm.executeQuery("SELECT * FROM clientes");
+			
 			
 			while (rs.next()) {
 				int idC = rs.getInt(1);
@@ -36,6 +39,14 @@ public class Concesionario {
 				String direC = rs.getString(4);
 				
 				System.out.println(idC + " - " + dniC + " - " + nomC + " - " + direC);
+				
+				String isql = "insert into clientes(nomC, dniC, direC) values(?,?,?)";
+				ps = cn.prepareStatement(isql);
+				
+				
+				
+				
+
 			}
 			
 		} catch (SQLException e) {
@@ -58,8 +69,6 @@ public class Concesionario {
 				e2.printStackTrace();
 			}
 		}
-		
-		operacion();
 		
 	}
 	
